@@ -1,113 +1,118 @@
-import Image from "next/image";
+"use client"
+import { useState } from 'react';
+import {BackgroundGradientAnimation} from '@/components/ui/background-gradient-animation'; // Adjust the import path as per your project structure
 
 export default function Home() {
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setMessage('');
+
+    try {
+      const response = await fetch('/api/email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setMessage('Email successfully submitted');
+        setEmail('');
+        setSubmitted(true);
+      } else {
+        setMessage('Failed to submit email');
+      }
+    } catch (error) {
+      setMessage('An error occurred');
+    }
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+    <main className="bg-gray-900 text-white min-h-screen">
+      <BackgroundGradientAnimation
+        gradientBackgroundStart="rgb(0, 0, 30)"
+        gradientBackgroundEnd="rgb(0, 0, 60)"
+        firstColor="18, 113, 255"
+        secondColor="221, 74, 255"
+        thirdColor="100, 220, 255"
+        fourthColor="200, 50, 50"
+        fifthColor="180, 180, 50"
+        pointerColor="140, 100, 255"
+        size="80%"
+        blendingValue="hard-light"
+        interactive={true}
+        containerClassName="h-screen w-screen relative overflow-hidden top-0 left-0"
+      >
+        <header className="flex justify-center items-center py-6 px-10 relative z-10">
+          <div className="text-2xl font-bold">LeaderLens</div>
+        </header>
+
+        <section className="flex flex-col items-center justify-center text-center py-40 relative z-10">
+          <h1 className="text-5xl font-bold mb-4">Join now.</h1>
+          <p className="text-xl mb-8 px-10 md:px-96 pt-6">
+            Step into the world of successful business leaders through the eyes of a high schooler. LeaderLens brings you unique and inspiring interviews with CEOs, offering a fresh perspective on their journeys, challenges, and triumphs. Join us as we delve into the minds of these influential individuals and uncover the secrets to their success. Explore their stories, learn valuable lessons, and get motivated by the incredible paths they have taken.
+          </p>
+          <form className="flex flex-col items-center max-w-lg w-full px-4" onSubmit={handleSubmit}>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="mb-4 px-4 py-3 rounded bg-gray-800 text-white w-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-          </a>
+            {submitted ? (
+              <p className="px-8 py-3 my-4 bg-gray-700 text-white rounded">Check your email for updates</p>
+            ) : (
+              <button
+                type="submit"
+                className="px-8 py-3 my-4 bg-yellow-500 text-black rounded hover:bg-yellow-600 transition-colors duration-300"
+              >
+                Get more info
+              </button>
+            )}
+          </form>
+          {message && <p className="text-white mt-4">{message}</p>}
+        </section>
+      </BackgroundGradientAnimation>
+
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-8 text-center">Past Interviews</h2>
+          <p className="text-xl text-center mb-12">
+            Dive into the insights and stories of CEOs we've interviewed. Discover their journeys, their wisdom, and what makes them tick.
+          </p>
+          <div className="flex items-center justify-center">
+            <div className="bg-gray-800 bg-opacity-80 backdrop-filter backdrop-blur-lg border-2 border-white rounded-lg p-10 transform hover:scale-105 transition-transform duration-300">
+              <p className="text-white text-center text-3xl font-bold">More to come</p>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      <hr className="border-white border-opacity-25 my-12 mx-4" />
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
+      <section className="py-20 pb-40">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-8 text-center">Published Newsletters</h2>
+          <p className="text-xl text-center mb-12">
+            Stay tuned for our latest newsletters packed with insights and updates.
           </p>
-        </a>
+          <div className="flex items-center justify-center">
+            <div className="bg-gray-800 bg-opacity-80 backdrop-filter backdrop-blur-lg border-2 border-white rounded-lg p-10 transform hover:scale-105 transition-transform duration-300">
+              <p className="text-white text-center text-3xl font-bold">More to come</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <footer className="py-6 px-10 bg-gray-800 text-center">
+        <p>&copy; 2024 LeaderLens. All rights reserved.</p>
+      </footer>
     </main>
   );
 }
