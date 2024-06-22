@@ -1,6 +1,6 @@
 "use client"
 import { useState } from 'react';
-import {BackgroundGradientAnimation} from '@/components/ui/background-gradient-animation'; // Adjust the import path as per your project structure
+import { BackgroundGradientAnimation } from '@/components/ui/background-gradient-animation'; // Adjust the import path as per your project structure
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -84,7 +84,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-center">Past Interviews</h2>
           <p className="text-xl text-center mb-12">
-            Dive into the insights and stories of CEOs we've interviewed. Discover their journeys, their wisdom, and what makes them tick.
+            Dive into the insights and stories of CEOs we&apos;ve interviewed. Discover their journeys, their wisdom, and what makes them tick.
           </p>
           <div className="flex items-center justify-center">
             <div className="bg-gray-800 bg-opacity-80 backdrop-filter backdrop-blur-lg border-2 border-white rounded-lg p-10 transform hover:scale-105 transition-transform duration-300">
